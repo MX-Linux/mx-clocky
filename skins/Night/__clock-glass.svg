@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="clock-glass.svg"
+   version="1.0"
+   inkscape:version="0.47 r22583"
+   sodipodi:version="0.32"
+   id="svg2"
+   height="100"
+   width="100">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4.3732917"
+     inkscape:cx="45.441015"
+     inkscape:cy="50.046875"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="919"
+     inkscape:window-height="580"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     showgrid="false"
+     inkscape:window-maximized="0">
+    <sodipodi:guide
+       id="guide1307"
+       position="50"
+       orientation="horizontal" />
+    <sodipodi:guide
+       id="guide1309"
+       position="50"
+       orientation="vertical" />
+    <sodipodi:guide
+       id="guide1311"
+       position="100"
+       orientation="horizontal" />
+    <sodipodi:guide
+       id="guide1313"
+       position="0"
+       orientation="vertical" />
+    <sodipodi:guide
+       id="guide1315"
+       position="100"
+       orientation="vertical" />
+    <sodipodi:guide
+       id="guide1317"
+       position="0"
+       orientation="horizontal" />
+    <sodipodi:guide
+       id="guide1319"
+       position="90.060241"
+       orientation="horizontal" />
+    <sodipodi:guide
+       id="guide1321"
+       position="10.040161"
+       orientation="vertical" />
+    <sodipodi:guide
+       id="guide1323"
+       position="90.060241"
+       orientation="vertical" />
+    <sodipodi:guide
+       id="guide1325"
+       position="10.040161"
+       orientation="horizontal" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       id="perspective21"
+       inkscape:persp3d-origin="50 : 33.333333 : 1"
+       inkscape:vp_z="100 : 50 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 50 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       id="linearGradient2202">
+      <stop
+         id="stop2204"
+         offset="0"
+         style="stop-color:#a5adad;stop-opacity:1;" />
+      <stop
+         id="stop2206"
+         offset="1"
+         style="stop-color:#e8f4ed;stop-opacity:1;" />
+    </linearGradient>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Ebene 1">
+    <path
+       id="path1327"
+       d="M 49.176311,15.644728 C 30.796207,16.11091 15.972479,31.074394 15.738686,49.511041 c -0.0019,0.147494 0,0.280753 0,0.428687 0,0.147934 -0.0019,0.307987 0,0.455481 0.05638,4.44641 0.975215,8.679667 2.572125,12.565902 C 25.733102,34.786556 47.749242,23.36423 64.341131,18.752713 60.23923,16.866938 55.723472,15.765936 50.944646,15.644728 l -1.768335,0 z M 84.2751,47.528361 c -5.454297,24.244392 -24.26488,33.107504 -40.805692,36.09013 1.990441,0.387323 4.038682,0.616439 6.13559,0.643031 l 0.884168,0 c 18.43665,-0.233795 33.400131,-15.057525 33.866312,-33.437625 0.0075,-0.294082 0,-0.588299 0,-0.884169 0,-0.295868 0.0075,-0.590086 0,-0.884167 -0.01305,-0.514643 -0.04486,-1.018408 -0.08038,-1.5272 z"
+       style="fill:#ffffff;fill-opacity:0.24705882;fill-rule:nonzero;stroke:none" />
+  </g>
+</svg>

@@ -1,0 +1,428 @@
+#!/bin/bash
+
+##Original Code by dolphin_oracle May 20 2016 (dolphinoracle@gmail.com)
+##License is GPL 3.0
+##rev 3 May 26, 2016
+## added "add/remove themes and user directory skins support"
+## added "preview" as possible preview image name
+
+##clocky theme changer
+
+# translations stuff
+TEXTDOMAINDIR=/usr/share/locale 
+TEXTDOMAIN=mx-clocky-theme-changer
+
+#define some variables, including translation text variables
+
+declare -a THEME_PATH
+TITLE=$"MX Clocky Theme Chooser"
+HELP=$"Help"
+ABOUT=$"About"
+CLOSE=$"Close"
+APPLY=$"Apply"
+LABEL=$"Clocky Theme"
+PREVIEW=$"Preview"
+CURRENT=$"Current"
+ASTART=$"Autostart"
+THEMEADD=$"Add Theme"
+THEMEREMOVE=$"Remove Theme"
+ADD=$"Add"
+MESSAGE=$"Choose Theme Folder"
+REMOVE=$"Remove"
+YES=$"Yes"
+NO=$"No"
+
+#define functions
+
+display_selections()
+{
+
+#check autostart status
+
+if [ -e ~/.config/autostart/mx-clocky.desktop ]; then
+	start=$(grep Hidden ~/.config/autostart/mx-clocky.desktop|cut -d '=' -f2)
+	if [ $start = "false" ]; then
+		AUTOSTART=true
+	else if [ $start = "true" ]; then
+		AUTOSTART=false
+		fi
+	fi
+	else
+	AUTOSTART=false
+
+	# create .desktop file for autostart if not already present
+
+	echo "[Desktop Entry]">>~/.config/autostart/mx-clocky.desktop
+	echo "Encoding=UTF-8">>~/.config/autostart/mx-clocky.desktop
+	echo "Version=0.0.0">>~/.config/autostart/mx-clocky.desktop
+	echo "Type=Application">>~/.config/autostart/mx-clocky.desktop
+	echo "Name=MX-Clocky">>~/.config/autostart/mx-clocky.desktop
+	echo "Exec=mx-clocky">>~/.config/autostart/mx-clocky.desktop
+	echo "StartupNotify=false">>~/.config/autostart/mx-clocky.desktop
+	echo "Terminal=false">>~/.config/autostart/mx-clocky.desktop
+	echo "Hidden=true">>~/.config/autostart/mx-clocky.desktop
+fi
+
+#check the current clocky theme, make it the Default Theme in the combo box list in the gui
+
+if [ -e ~/.clocky/current.conf ]; then
+	DEFAULT_THEME=$(cat ~/.clocky/current.conf|rev|cut -d '/' -f1|rev)
+	else
+	echo "/usr/share/clocky/skins/MX-Linux">>~/.clocky/current.conf
+	DEFAULT_THEME=$(cat ~/.clocky/current.conf|rev|cut -d '/' -f1|rev)
+fi
+
+echo "Default Theme: $DEFAULT_THEME"
+
+#assign the Default Theme/current themes path to the 0 index in the THEME_PATH array
+
+THEME_PATH[0]=$(cat ~/.clocky/current.conf)
+
+
+# read in the rest of the THEME_PATH array values
+#USER_THEME_PATH is used by the "remove_theme()" function
+# also send array values to a text file so they will be available to the exported preview function.  
+# This file is cleaned up at start of app and at finish
+
+echo ${THEME_PATH[0]}>>/tmp/clocky-theme.tmp
+
+k=1
+n=0
+if [ -d ~/.local/share/clocky/skins/ ]; then
+for j in $(find ~/.local/share/clocky/skins/* -name INSTALL*|cut -d '/' -f-8); do
+THEME_PATH[$k]=$j
+USER_THEME_PATH[$n]=$j
+echo ${THEME_PATH[$k]}>>/tmp/clocky-theme.tmp
+let "k += 1"
+let "n += 1"
+done
+fi
+
+for j in $(find /usr/share/clocky/skins/* -name INSTALL*|cut -d '/' -f-6); do
+THEME_PATH[$k]=$j
+echo ${THEME_PATH[$k]}>>/tmp/clocky-theme.tmp
+let "k += 1"
+done
+
+#build list for theme selection box
+
+n="0"
+count=$(echo ${#THEME_PATH[@]})
+
+while [ "$n" -le "$count" ]
+do
+	#first pass is the DEFAULT theme
+	if [ $n = 0 ]; then
+	list="$CURRENT: $DEFAULT_THEME"
+	let "n += 1"
+	
+	else
+	#now the rest of the themes are added to the list
+	list=$list!"$n: $(echo "${THEME_PATH[$n]}"|rev|cut -d '/' -f1|rev)"
+	let "n += 1"
+	fi
+done
+
+#display selection dialog
+
+selections=$(yad --window-icon=/usr/share/pixmaps/mx-clocky.xpm --form --button="$THEMEREMOVE"!mx-clocky!:7 --button="$THEMEADD"!mx-clocky!:6 --button="$ABOUT"!help-about!:3 --button="$APPLY"!emblem-default!:0 --button="$CLOSE"!process-stop!:1 --width=300 --title="$TITLE" \
+	--field="<b>$LABEL</b>":LBL ""\
+	--field="":CB "$list"\
+	--field="$PREVIEW!mx-clocky! ":FBTN 'bash -c "preview %2"'\
+	--field="$ASTART ":CHK "$AUTOSTART"\
+	--field="":LBL "")
+}
+actions()
+{
+
+#capture the exit code from the selection dialog
+status2=$?
+
+#echo $status2
+
+#decide what to do, based on exit code
+case $status2 in
+
+	0) adjust_settings
+		   ;;
+	1) quit
+		   ;;
+	3) display_about
+	           ;;
+	4) display_help
+	           ;;
+	5) display_license
+		   ;;
+	6) add_theme
+		   ;;
+	7) remove_theme
+	;;
+esac
+}
+
+adjust_settings()
+{
+#take the chosen theme and run that theme's installer script
+echo $selections
+
+# get index value for use with array
+INDEX=$(echo $selections|cut -d '|' -f2|cut -d ":" -f1)
+
+#get autostart checkbox status
+START_ENABLED=$(echo $selections|cut -d '|' -f4)
+echo "START ENABLED: $START_ENABLED"
+echo "INDEX: $INDEX"
+
+# if the index is 0, that means the current theme, so no changes
+
+if [ "$INDEX" = "0" ]; then
+	actionstatus=0
+	else		
+
+	#if index is not 0, then do the change
+
+	NEWPATH=${THEME_PATH[$INDEX]}
+	echo "NEW PATH: $NEWPATH"
+
+
+	#kill clocky so we can apply theme (no restart command)
+	pkill -x clocky
+
+	#switch to theme directory because the installer scripts use relative paths
+	cd $NEWPATH
+	echo "New Working Direcotory: "$PWD
+
+	#figure out installer script title (either INSTALL.sh or simply INSTALL depending on theme)
+	command=$(ls |grep INSTALL)
+
+	#run the installer
+	./$command
+
+	#set new theme as new default
+
+	echo "$NEWPATH">~/.clocky/current.conf
+
+	#restart clocky
+	clocky &
+fi
+
+#set the autostart value
+#true and false are inverted because that's the way .desktop files work
+
+if [ $START_ENABLED = "TRUE" ]; then
+	sed -i -r s/Hidden=.*/Hidden=false/ ~/.config/autostart/mx-clocky.desktop
+	else
+	sed -i -r s/Hidden=.*/Hidden=true/ ~/.config/autostart/mx-clocky.desktop
+fi
+
+#return to chooser dialog
+#actionstatus 0 loops things back to start and rebuilds the selection dialog
+actionstatus=0
+
+}
+
+
+display_about()
+{
+
+#display "about" dialog similar to other MX apps
+Version=$"Version"
+version=$(dpkg -s mx-clocky |grep Version | cut -d ':' -f2)
+description=$"A nice desktop clock"
+about_title=$"About MX-Clocky"
+
+info=$(yad --selectable-labels --window-icon=preferences-desktop-sound --align=center --form --button=OK:0 --width=300 --title="$about_title"\
+	--field="<b>MX Clocky</b>":LBL ""\
+	--field=" ":LBL " "\
+	--field="$Version $version":LBL ""\
+	--field=" ":LBL " "\
+	--field="<b>A nice desktop clock</b>":LBL ""\
+	--field=" ":LBL " "\
+	--field="http://www.mepiscommunity.org/mx":BTN "xdg-open www.mepiscommunity.org/mx"\
+	--field=" ":LBL " "\
+	--field="copyright (c) antiX":LBL "")
+
+case $? in
+
+	0) actionstatus=0
+	;;
+	5) display_license
+	;;
+esac
+}	
+	
+display_help()
+{
+mx-viewer http://www.mepiscommunity.org/wiki/help-files/help-mx-system-sounds-manager &
+actionstatus=0
+}
+
+display_license()
+{
+mx-viewer http://mepiscommunity.org/wiki/licenses/license-mx-system-sounds &
+display_about
+}
+
+quit()
+{
+#echo quit
+actionstatus=1
+}
+
+add_theme()
+{
+
+#function to add a theme folder to the user skin directory
+
+# get the folder with a standard file dialog.  Dialog will only allow selection of folders
+
+THEMEFOLDER=$(yad --window-icon=/usr/share/pixmaps/mx-clocky.xpm --form --button="$ADD"!emblem-default!:0 --button="$CLOSE"!process-stop!:1  --title="$TITLE" \
+	--field="$MESSAGE":DIR "")
+
+#preserve exit status of dialog for later use
+state=$?
+
+#adjust the variables to get rid of yad added delimiters
+
+# path of the new theme folder
+THEMEFOLDER=$(echo "$THEMEFOLDER"|cut -d '|' -f1)
+
+#get the name of the theme
+ADDTHEME=$(echo $THEMEFOLDER|rev|cut -d '/' -f1|rev)
+echo "ADDTHEME is: $ADDTHEME"
+
+#if the theme is present, ask for confirmation
+if [ -d "/home/$USER/.local/share/clocky/skins/$ADDTHEME/" ]; then
+	yad --window-icon=/usr/share/pixmaps/mx-clocky.xpm --form --button="$YES"!emblem-default!:0 --button="$NO"!process-stop!:1  --title="$TITLE" --field="<b>Theme Exists.  Continue?</b>":LBL "" --width=300
+	state=$?
+fi
+
+#depending on exit status do someting (only 0 copies, 1 exits dialog)
+case $state in
+
+	0)mkdir -p ~/.local/share/clocky/skins/$ADDTHEME/
+		echo "copyying $THEMEFOLDER"
+		cp $THEMEFOLDER/* ~/.local/share/clocky/skins/$ADDTHEME/
+	;;
+	1) actionstatus=0
+	;;
+esac
+
+
+actionstatus=0
+}
+
+remove_theme()
+{
+#build list for theme selection box because its easier than dealing with the file dialog for removing themes
+
+#only the user folder themes are available for removal
+n="0"
+count=$(echo ${#USER_THEME_PATH[@]})
+echo $count
+while [ "$n" -le "$count" ]
+do
+	if [ $n = 0 ]; then
+	list="$(echo "${USER_THEME_PATH[$n]}"|rev|cut -d '/' -f1|rev)"
+	let "n += 1"
+	
+	else
+	list=$list!"$(echo "${USER_THEME_PATH[$n]}"|rev|cut -d '/' -f1|rev)"
+	let "n += 1"
+	fi
+done
+
+# user dialog to choose the theme
+THEMEFOLDER=$(yad --window-icon=/usr/share/pixmaps/mx-clocky.xpm --form --button="$REMOVE"!emblem-default!:0 --button="$CLOSE"!process-stop!:1  --title="$TITLE" --width=350 \
+	--field="$MESSAGE":CB "$list")
+state=$?
+
+#get rid of the delimiters
+THEMEFOLDER=$(echo "$THEMEFOLDER"|cut -d '|' -f1)
+
+# do something.  Note there is no confirmation.  The folder is present, and it will be removed
+
+case $state in
+
+	0)rm -f /home/$USER/.local/share/clocky/skins/$THEMEFOLDER/*
+		rmdir /home/$USER/.local/share/clocky/skins/$THEMEFOLDER/
+	;;
+	1) actionstatus=0
+	;;
+esac
+
+actionstatus=0
+}
+
+preview()
+{
+
+#display preview graphic of clock face
+
+#reclare THEME_PATH because its external to this function
+declare -a THEME_PATH
+
+#change read delimiter to make reading from file easier
+IFS=$'\n'
+
+#read array values from temporary file
+THEME_PATH=(`cat /tmp/clocky-theme.tmp`)
+
+#first arguement provided by the parent dialog is the index of in the array
+INDEX=$1
+
+#second argument is the theme name
+PREVIEW=$2
+
+# cleanup some delimiters to get a index value for the array
+INDEX=$(echo $INDEX|cut -d ":" -f1)
+
+# get the image from the path indexed in the array.  Note the grep statement will find any file
+# named clocky* or preview* .  any html graphic file should be supported
+
+IMAGE="${THEME_PATH[$INDEX]}/$(ls ${THEME_PATH[$INDEX]} |grep -e clocky -e preview)"
+
+# if the image exists, then show it
+
+if [ -f "$IMAGE" ]; then
+	yad --title="$PREVIEW" --window-icon=/usr/share/pixmaps/mx-clocky.xpm --html --image=$IMAGE
+	else
+# if the image doesn't exist, show the cancel not available type graphic instead
+	yad --title="$PREVIEW" --window-icon=/usr/share/pixmaps/mx-clocky.xpm --html --image=process-stop
+fi
+
+actionstatus=0
+}
+
+#export the preview function to a subshell so the parent dialog can access it.
+export -f preview
+
+##start gui and run actions
+## this is actually gets things started.  everything up to now is definition of functions and variables
+
+# set initial status
+status=0
+
+while [ $status = "0" ]; do
+
+	#check for the temporary file and get rid of it if present.  it will be rebuilt
+	if [ -e /tmp/clocky-theme.tmp ]; then
+		rm -f /tmp/clocky-theme.tmp
+	fi
+	#start the parent dialog
+	display_selections
+	
+	#once selection is made, use action function to decide what to do
+	actions
+
+	#app status is the same as whatever the last actionstatus is.  If 0, the while loop starts everything over
+	status=$actionstatus
+	
+done
+
+#as a last action, cleanup the temporary file
+if [ -e /tmp/clocky-theme.tmp ]; then
+	rm -f /tmp/clocky-theme.tmp
+fi
+
+exit 0

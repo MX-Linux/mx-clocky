@@ -1,0 +1,615 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#
+# This application is released under GNU General Public License v3
+# You can find the full text at http://www.gnu.org/licenses/gpl.txt
+# By using, editing and/or distributing this software you agree to
+# the terms and conditions of this license.
+#_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+#!v0.5~mickyz(c)2013
+
+import os
+import shutil
+import subprocess
+
+SRC_PATH = os.path.abspath(os.path.dirname(__file__))
+EXEC = os.path.basename(__file__)
+USR_PATH = '/'.join((os.path.expanduser('~'), '.'+EXEC))
+CONFIG = '/'.join((USR_PATH, '.cfg'))
+
+from ConfigParser import SafeConfigParser
+
+class Config(SafeConfigParser):
+
+    _cfgs = []
+    _mtime = 0
+
+    def __init__(self):
+        SafeConfigParser.__init__(self)
+        self.load_default()
+
+    def load_default(self):
+        self.add_section(EXEC)
+        self.set(EXEC, 'alarm',     '7,5')
+        self.set(EXEC, 'beep',      '3')
+        self.set(EXEC, 'ontop',     '0')
+        self.set(EXEC, 'stick',     '1')
+        self.set(EXEC, 'scale',     '1.8')
+        self.set(EXEC, 'position',  '10,10')
+        self.set(EXEC, 'font',      'Sans Bold 12')
+        self.set(EXEC, 'datetime',  '&H.&M,&a&d&b')
+
+    def load(self):
+        if os.path.exists(CONFIG):
+            self.read(CONFIG)
+            self._cfgs = self.items(EXEC)
+        else:
+            if not os.path.exists(USR_PATH):
+		shutil.copytree('/usr/share/clocky/skins/MX-Linux/', USR_PATH, symlinks=False, ignore=None)
+            self.save()
+
+    def save(self):
+        if self._cfgs != self.items(EXEC):
+            self._cfgs = self.items(EXEC)
+            with open(CONFIG, 'w') as f:
+                self.write(f)
+
+    def edit(self):
+        import subprocess
+        subprocess.Popen(['xdg-open', CONFIG])
+#_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+import gtk
+config = Config()
+config.load()
+
+class Window(gtk.Window):
+
+    _ontop = False
+    _stick = False
+    _menu = None
+    _pt = False
+    _px = 0
+    _py = 0
+
+    def __init__ (self):
+        super(Window, self).__init__()
+
+        self.set_app_paintable(True)
+        self.set_colormap(self.get_screen().get_rgba_colormap())
+        self.set_decorated(False)
+        self.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_UTILITY)
+        #self.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_NOTIFICATION)#_DOCK)
+
+        self.set_title(str(EXEC).title())
+        self.set_icon_from_file('/'.join((SRC_PATH, 'skins', 'icon.png')))
+        #self.set_icon_name('exec')
+        self.set_ontop(config.getboolean(EXEC, 'ontop'))
+        self.set_stick(config.getboolean(EXEC, 'stick'))
+
+        self.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+        self.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
+        self.add_events(gtk.gdk.POINTER_MOTION_MASK)
+        #self.add_events(gtk.gdk.ENTER_NOTIFY_MASK)
+
+        self.connect('expose-event', self.expose_event)
+        self.connect('button-press-event', self.show_menu)
+        self.connect('button-press-event', self.button_press)
+        self.connect('button-release-event', self.button_release)
+        self.connect('motion-notify-event', self.motion_notify)
+        #self.connect('window-state-event', self.state_event)
+        #self.connect('enter-notify-event', self.enter_notify)
+        #self.connect('leave-notify-event', self.leave_notify)
+        #self.set_property('accept-focus', False)#???
+
+    def button_press(self, widget, event):
+        if event.button == 1 and not self._stick:
+            self._pt = True
+            self._px, self._py = self.get_position()
+            self._px = event.x_root - self._px
+            self._py = event.y_root - self._py
+        return False
+
+    def button_release(self, widget, event):
+        if event.button == 1:
+            self._pt = False
+            self.save_config()
+        return False
+
+    def motion_notify(self, widget, event):
+        if self._pt:
+            self.move(int(event.x_root-self._px), int(event.y_root-self._py))
+        return False
+
+    def expose_event(self, widget, event):
+        raise NotImplementedError
+
+    def enter_notify(self, widget, event):
+        return False
+
+    def leave_notify(self, widget, event):
+        return False
+
+    def state_event(self, widget, event):
+        return False
+
+    def set_ontop(self, ontop):
+        self.set_keep_above(ontop)
+        self.set_keep_below(not ontop)
+        self._ontop = ontop
+
+    def set_stick(self, stick):
+        self.stick() if stick else self.unstick()
+        self.set_skip_taskbar_hint(stick)
+        self.set_skip_pager_hint(stick)           
+        self._stick = stick
+
+    def show_menu(self, widget, event):
+        if event.button == 1:
+            self.alarm_run = 0
+        elif event.button != 3:
+            return
+            #import subprocess
+            #subprocess.Popen(['time-admin'])
+        if self._menu == None:
+            self._menu = gtk.Menu()
+
+            item = gtk.CheckMenuItem('Stick desktop')
+            item.connect ('activate', lambda w: self.set_stick(w.active))
+            self._menu.__stick = item
+            self._menu.append(item)
+
+            edit = gtk.ImageMenuItem('Edit config')
+            edit.set_image(gtk.image_new_from_stock(
+                gtk.STOCK_EDIT, gtk.ICON_SIZE_MENU))
+            edit.connect ('activate', lambda w: config.edit())
+            self._menu.append(edit)
+
+            item = gtk.ImageMenuItem('Reload')
+            item.set_image(gtk.image_new_from_stock(
+                gtk.STOCK_REFRESH, gtk.ICON_SIZE_MENU))
+            item.connect ('activate', lambda w: self.quit(True))
+            self._menu.append(item)
+
+            item = gtk.ImageMenuItem('Manage themes')
+            item.set_image(gtk.image_new_from_stock(
+                gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_MENU))
+	    item.connect ('activate', lambda w: subprocess.call("clocky-theme-manager", shell=False))
+            self._menu.append(item)
+
+            self._menu.append(gtk.SeparatorMenuItem())
+            quit = gtk.ImageMenuItem(gtk.STOCK_QUIT)
+            quit.connect ('activate', lambda w: self.quit(False))
+            self._menu.append(quit)
+            self._menu.show_all()
+
+        self._menu.__stick.set_active(self._stick)
+        self._menu.popup(None, None, None, event.button, event.time)
+
+    def read_config(self):
+        x, y = config.get(EXEC, 'position').split(',')
+        self.move(int(x), int(y))
+        self.scale = float(config.get(EXEC, 'scale'))
+        if 'clock-face' in self._pngs.keys():
+            self.width, self.height = 200, 200
+            self.scale = self.scale /2.0
+        self.resize(int(self.width *self.scale), int(self.height *self.scale))
+
+        alarm = config.get(EXEC, 'alarm')
+        if alarm: 
+            self.alarm_id = [int(v) for v in alarm.split(',')]
+            self.alarm_beep = 'beep%s.wav' % config.getint(EXEC, 'beep')
+        self.font = config.get(EXEC, 'font')
+        self.fstr = config.get(EXEC, 'datetime')
+        self.fstr = self.fstr.replace('&','%').replace(',','\n')
+
+    def save_config(self):
+        config.set(EXEC, 'position', '%d,%d' % self.get_position())
+        config.save()
+
+    def quit(self, restart=False):
+        self.save_config()
+
+        gtk.main_quit()
+        if restart:
+            import subprocess
+            subprocess.Popen([EXEC])
+#_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+import cairo
+import datetime
+import gobject
+import math
+import pango
+import rsvg
+#import time
+
+class Clocky(Window):
+
+    # alarm opts
+    alarm_run = 0
+    alarm_id = 0
+    alarm_beep = 0
+    alarm_cmd = "echo passwd | sudo -S shutdown -h now"
+
+    # clock sets
+    dtime = datetime.datetime.now()
+    _hf = 6.0 #!24h = 12.0
+    _hr = 360.0 #!24h = 720.0
+    _timer = 0
+
+    # skin sets
+    width = 100
+    height = 100
+    font  = "Sans 10"
+    fstr  = "%H.%M.%S"
+    _bg   = None
+    _fg   = None
+    _pngs = {}
+    _svgs = {}
+    _skin = {}
+    _txts = {}
+
+    def __init__(self):
+        """ Start the clocky instance """
+        Window.__init__(self)
+
+        self.__load_all()#!call before show_all()
+        self.read_config()
+        self.show_all()#!call before init()
+        self.init()
+        self._timer = gobject.timeout_add(1000, self.update)
+
+    def __free(self):
+        for name in self._skin.keys():
+            try: self._skin[name].free()
+            except: pass
+            del name
+        self._skin = {}
+
+    def __load_all(self):
+        for name in os.listdir(USR_PATH):
+            if name.endswith('.svg'):
+                self.add_svg(name[:-4])
+            elif name.endswith('.png'):
+                self.add_png(name[:-4])
+            elif name.endswith('.py'):#FIXME
+                import sys
+                sys.path.append(USR_PATH)
+                #sys.path[0:0] = # puts dir at start
+                from skin import SkinDrawing                              
+
+                self._skin['py'] = SkinDrawing(self)
+
+    def add_png(self, name):
+        """ Add a png image to skin """
+        #if self._skin.has_key(name):
+        #    del self._skin[name]
+        file = '/'.join((USR_PATH, name+'.png'))
+        try:
+            self._skin[name] = cairo.ImageSurface.create_from_png(file)
+            self._pngs[name] = self._skin[name]
+        except Exception, err:
+            import traceback
+            msg = traceback.format_exc()
+            print str(msg)
+
+    def add_svg(self, name):
+        """ Add a svg image to skin """
+        #if self._skin.has_key(name):
+        #    del self._skin[name]
+        file = '/'.join((USR_PATH, name+'.svg'))
+        try:
+            self._skin[name] = rsvg.Handle(file)
+            self._svgs[name] = self._skin[name]
+            #_size = self._skin[name].get_dimension_data()
+            #self.width, self.height = _size[0], _size[1]
+        except Exception, err:
+            import traceback
+            msg = traceback.format_exc()
+            print str(msg)
+
+            self._skin[name] = gtk.gdk.pixbuf_new_from_file(file)
+            self._svgs[name[:-4]] = self._skin[name]
+            #self.width  = self._skin[name].get_width()
+            #self.height = self._skin[name].get_height()
+    
+    def render(self, ctx, name):
+        """ Render the given svg/png context """
+        if name in self._svgs.keys():
+            try:
+                self._svgs[name].render_cairo(ctx)
+            except Exception, err:
+                print str(err)
+                ctx.set_source_pixbuf(self._svgs[name], 0, 0)                
+                ctx.paint()
+        elif name in self._pngs.keys():
+            ctx.set_source_surface(self._pngs[name], 0, 0)
+            ctx.paint()
+
+    def render_colorized(self, ctx, name, color):#!deprecated
+        """ Render the given png context adding a color """
+        ctx.set_source_rgba(color[0], color[1], color[2], color[3])
+        ctx.set_source_surface(self._pngs[name], 0, 0)
+        ctx.mask_surface(image, 0, 0)
+        ctx.stroke()
+#_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def clear_ctx(self, ctx):
+        """ Clear the context with transparent white """
+        ctx.save()
+        ctx.set_source_rgba(1, 1, 1, 0)
+        ctx.set_operator(cairo.OPERATOR_SOURCE)
+        ctx.paint()
+        ctx.restore()
+
+    def expose_event(self, widget, event):
+        """ Emitted at expose event """
+        ctx = widget.window.cairo_create()
+        ctx.rectangle(event.area.x, event.area.y,
+            event.area.width, event.area.height)
+        ctx.clip()
+
+        self.clear_ctx(ctx)
+        self.redraw(ctx)
+        del ctx
+        return False
+
+    def draw_circle(self, ctx, x, y, w, h, fill=True):
+        """ Draw a circle into cairo context """
+        ctx.save()
+        ctx.translate(x, y)
+        ctx.arc(w /2, h /2, min(h, w) /2, 0, 2 *math.pi)
+        if fill:ctx.fill()
+        else: ctx.stroke()
+        ctx.restore()
+
+    def draw_line(self, ctx, x, y, xc, yc, w=1, close=False, preserve=False):
+        """ Draw a line into cairo context """
+        ctx.save()
+        ctx.move_to(x, y)
+        ctx.set_line_width(w)
+        ctx.rel_line_to(xc, yc)
+        if close: ctx.close_path()
+        if preserve: ctx.stroke_preserve()
+        else: ctx.stroke()
+        ctx.restore()
+
+    def draw_rectangle(self, ctx, x, y, w, h, fill=True):
+        """ Draw a rectangle into cairo context """
+        ctx.save()
+        ctx.translate(x, y)
+        ctx.rectangle (0, 0, w, h)
+        if fill:ctx.fill()
+        else: ctx.stroke()
+        ctx.restore()
+
+    def draw_rounded_rectangle(self, ctx, x, y, w, h, r=4, p=0, fill=True,
+        r_tl=True, r_tr=True, r_bl=True, r_br=True):
+        """ Draw a rectangle with rounded edges """
+        ctx.save()
+        ctx.translate(x, y)
+        ctx.move_to(0 +p +r, 0 +p)        
+        if r_tr: # top right
+            ctx.line_to(w -p -r, 0 +p)
+            ctx.arc(w -p -r, 0 +p +r, r, (math.pi /2) +(math.pi) , 0)
+        else:
+            ctx.line_to(w -p, 0 +p)        
+        if r_br: # bottom right
+            ctx.line_to(w -p, h -p -r)
+            ctx.arc(w -p -r, h -p -r, r, 0, math.pi /2)
+        else:
+            ctx.line_to(w -p, h -p)        
+        if r_bl: # bottom left
+            ctx.line_to(0 +p +r, h -p)
+            ctx.arc(0 +p +r, h -p -r, r, math.pi /2, math.pi)
+        else:    
+            ctx.line_to(0+p, h-p)        
+        if r_tl: # top left
+            ctx.line_to(0 +p, 0 +p +r)
+            ctx.arc(0 +p +r, 0 +p +r, r, math.pi, (math.pi /2) +(math.pi))
+        else:
+            ctx.line_to(0 +p, 0 +p)
+
+        if fill: ctx.fill()
+        else: ctx.stroke()
+        ctx.restore()
+
+    def draw_text(self, ctx, font, txt, x, y, w, s=0, align=0, ellip=0):
+        """ Draw a text into pango layout """
+        k = str('%dx%d' % (x, y))
+        if not self._txts.has_key(k):
+            fdesc = pango.FontDescription(font)
+            if s: fdesc.set_size(int(s *pango.SCALE))
+            _cpl = ctx.create_layout()
+            _cpl.set_font_description(fdesc)
+            _cpl.set_width(int(w *pango.SCALE))
+            #_cpl.set_spacing(int(1.0 *pango.SCALE))
+            vals = pango.ALIGN_LEFT, pango.ALIGN_CENTER, pango.ALIGN_RIGHT
+            _cpl.set_alignment(vals[align])
+            vals = pango.ELLIPSIZE_NONE,pango.ELLIPSIZE_START, \
+                pango.ELLIPSIZE_MIDDLE, pango.ELLIPSIZE_END
+            _cpl.set_ellipsize(vals[ellip])
+            self._txts[k] = _cpl
+        else:
+            _cpl = self._txts[k]
+
+        ctx.save()
+        ctx.translate(x, y)
+        _cpl.set_markup(txt)
+        ctx.update_layout(_cpl)
+        ctx.show_layout(_cpl)
+        ctx.restore()
+#_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def init(self):
+        """ Called when the scale attribute has been changed """
+        self.init_buffers()
+        self.redraw_back()
+        self.redraw_fore()
+        #!fix clock hands
+        self._hand_x = self.scale *(self.width /2.0)
+        self._hand_y = self._hand_x
+        self._hand_w = self.scale *(self.width /100.0)
+        self._hand_h = self._hand_w
+
+    def init_buffers(self):
+        """ Recreate the bg/fg buffers """
+        args = (self.window,
+            int(self.width *self.scale), int(self.height *self.scale), -1)
+        self._bg = gtk.gdk.Pixmap(*args) 
+        self._fg = gtk.gdk.Pixmap(*args)
+
+    def redraw_back(self):
+        """ Redraw the bg buffer """
+        ctx_back = self._bg.cairo_create()
+        self.clear_ctx(ctx_back)
+        ctx_back.set_operator(cairo.OPERATOR_OVER) 
+        ctx_back.scale(self.scale, self.scale)
+
+        if self._skin.has_key('py'):#FIXME
+            self._skin['py'].redraw_back(ctx_back)
+   
+        self.render(ctx_back, 'clock-drop-shadow')
+        self.render(ctx_back, 'clock-face')
+        self.render(ctx_back, 'clock-marks')
+
+    def redraw_fore(self):
+        """ Redraw the fg buffer """
+        ctx_fore = self._fg.cairo_create()
+        self.clear_ctx(ctx_fore)
+
+        ctx_fore.scale(self.scale, self.scale)
+        self.render(ctx_fore, 'clock-face-shadow')
+        self.render(ctx_fore, 'clock-frame')
+        self.render(ctx_fore, 'clock-glass')
+
+    def redraw(self, ctx):
+        """ Redraw the clock hands """        
+        if self._bg:
+            ctx.set_operator(cairo.OPERATOR_OVER)
+            ctx.set_source_pixmap(self._bg, 0, 0)
+            ctx.paint()
+        ctx.set_operator(cairo.OPERATOR_OVER)
+        if self._skin.has_key('clock-hour-hand'):
+            ctx.save()
+            ctx.translate(self._hand_x, self._hand_y)
+            ctx.scale(self._hand_w, self._hand_h)
+            ctx.rotate(-math.pi /2.0)
+            # hour
+            ctx.save()
+            self.rotate = (math.pi /self._hf) *self.dtime.hour +\
+                (math.pi /self._hr) *self.dtime.minute
+            ctx.rotate(self.rotate)
+            self.redraw_shadow()
+            ctx.translate(self.shadow_x, self.shadow_y)
+            self.render(ctx, 'clock-hour-hand-shadow')
+            ctx.translate(-self.shadow_x, -self.shadow_y)
+            self.render(ctx, 'clock-hour-hand')
+            ctx.restore()
+            # minute
+            ctx.save()
+            self.rotate = (math.pi /30.0) *self.dtime.minute
+            ctx.rotate(self.rotate)
+            self.redraw_shadow()
+            ctx.translate(self.shadow_x, self.shadow_y)
+            self.render(ctx, 'clock-minute-hand-shadow')
+            ctx.translate(-self.shadow_x, -self.shadow_y)
+            self.render(ctx, 'clock-minute-hand')
+            ctx.restore()
+            if self._skin.has_key('clock-second-hand'):
+                # second
+                ctx.save()
+                self.rotate = (math.pi /30.0) *self.dtime.second
+                ctx.rotate(self.rotate)
+                self.redraw_shadow()
+                ctx.translate(self.shadow_x, self.shadow_y)
+                self.render(ctx, 'clock-second-hand-shadow')
+                ctx.translate(-self.shadow_x, -self.shadow_y)
+                self.render(ctx, 'clock-second-hand')
+                ctx.restore()
+            ctx.restore()
+        else:
+            # datetime
+            ctx.save()
+            ctx.scale(self.scale, self.scale)
+            ctx.set_source_rgba(1.0, 1.0, 1.0, 0.8)
+            text = self.dtime.strftime(self.fstr)
+            self.draw_text(ctx, self.font, text, 0, 0, self.width, 0, 1)
+            ctx.restore()
+        if self._skin.has_key('py'):#FIXME
+            # skin.py
+            ctx.save()
+            ctx.scale(self.scale, self.scale)
+            self._skin['py'].redraw_fore(ctx)
+            ctx.restore()
+        if self._fg:
+            ctx.set_operator(cairo.OPERATOR_OVER)
+            ctx.set_source_pixmap(self._fg, 0, 0)
+            ctx.paint()
+        if self.alarm_run != 0:
+            # alarm
+            if self.alarm_beep:
+                import subprocess
+                subprocess.Popen(['paplay',
+                    '/'.join((SCR_PATH, 'skins', self.alarm_beep))])
+            ctx.set_operator(cairo.OPERATOR_ATOP)
+            if self.alarm_run == 1:
+                ctx.set_source_rgba(1, 1, 1, 0.5)
+                self.alarm_run = 2
+            else:
+                ctx.set_source_rgba(0, 0, 0, 0.1)
+                ctx.paint()
+                self.alarm_run = 1
+
+    def redraw_shadow(self):
+        """ Update the shadow position """
+        if self.rotate >= 0:
+            self.shadow_x = 0.0
+            self.shadow_y = 1.0
+        if self.rotate >= 3.2:
+            self.shadow_x = 0.0
+            self.shadow_y = -1.0
+
+    def redraw_canvas(self):
+        """ Invalidate the window area """
+        x, y, w, h = self.get_allocation()
+        rect = gtk.gdk.Rectangle(x, y, w, h)
+        if self.window:
+            self.window.invalidate_rect(rect, True)
+            self.window.process_updates(True)
+    
+    def redraw_canvas_area(self, x, y, width, height):
+        """ Invalidate a rectangle area """
+        rect = gtk.gdk.Rectangle(x, y, width, height)
+        if self.window:
+            self.window.invalidate_rect(rect, True)
+            self.window.process_updates(True)
+
+    def redraw_shape(self, ctx):#!deprecated
+        """ Determines the clickable area """
+        ctx.set_source_rgba(0, 0, 0, 1)
+        self.__draw_rectangle(ctx, 0, 0,
+            self.scale *self.width, self.scale *self.height)
+
+    def update(self):
+        """ Update the clock """
+        self.dtime = datetime.datetime.now()
+        if self.alarm_id:
+            self.__get_alarm()
+        if self._skin.has_key('clock-second-hand'):
+            self.redraw_canvas()
+        elif self.dtime.second == 0:
+            self.redraw_canvas()
+        return True #!keep running this event
+
+    def __get_alarm(self):
+        if self.dtime.minute == self.alarm_id[1] \
+        and self.dtime.hour  == self.alarm_id[0]:
+            self.alarm_run = 1
+            self.alarm_id = 0
+
+if __name__ == '__main__':
+    """ Start the clocky instance """
+    clocky = Clocky()
+    gtk.main()

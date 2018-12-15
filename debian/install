@@ -1,0 +1,8 @@
+MX-Clocky usr/bin
+mx-clocky.desktop usr/share/applications
+skins/* usr/share/clocky/skins
+clocky usr/share/clocky
+bin usr/share/clocky
+mx-clocky.xpm usr/share/pixmaps
+clocky-theme-manager usr/share/clocky
+manpages/* usr/share/man/man1

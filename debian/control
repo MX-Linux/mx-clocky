@@ -1,0 +1,28 @@
+Source: mx-clocky
+Section: utils
+Priority: optional
+Maintainer: Steven Pusser <stevep@mxlinux.org>
+Build-Depends: debhelper (>=7.0.50~)
+Standards-Version: 3.9.6
+Homepage: http://gtk-apps.org/content/show.php/Clocky?content=167525
+
+Package: mx-clocky
+Architecture: all
+Breaks: clocky
+Conflicts: clocky
+Replaces: clocky
+Depends: ${misc:Depends}, python, python-gtk2,
+         python-rsvg, yad
+Description: attractive desktop-agnostic analog clock
+ MX-Clocky is a fork of the original clocky with extra skins and packaging
+ modifications. It's a desktop-agnostic, attractive analog clock that
+ can also display RAM and CPU use, depending on the skin.  It can use 
+ Cairo-clock skins, and will use much less CPU cycles than Cairo Clock. A
+ selection of skins are included in /usr/share/clocky/skins, along with install
+ shell scripts, and other skins can be found online. It's also possible to
+ create your own original skins, or mix and match elements to create modified 
+ versions.
+ .
+ The original clocky is here:
+ http://gtk-apps.org/content/show.php/Clocky?content=167525    by mickyz (c)2013
+

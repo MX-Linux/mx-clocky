@@ -1,0 +1,8 @@
+usr/bin/MX-Clocky usr/bin/clocky
+usr/share/clocky/clocky-theme-manager usr/bin/clocky-theme-manager
+usr/share/man/man1/MX-Clocky.1 usr/share/man/man1/clocky.1
+usr/share/clocky/skins/zerotwos.ttf usr/share/clocky/skins/Android/zerotwos.ttf
+usr/share/clocky/skins/zerotwos.ttf usr/share/clocky/skins/Hiro/zerotwos.ttf
+usr/share/clocky/skins/zerotwos.ttf usr/share/clocky/skins/MX-Linux/zerotwos.ttf
+usr/share/clocky/skins/zerotwos.ttf usr/share/clocky/skins/Night/zerotwos.ttf
+usr/share/clocky/skins/zerotwos.ttf usr/share/clocky/skins/Spitfire/zerotwos.ttf

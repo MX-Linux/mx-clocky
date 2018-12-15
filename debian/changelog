@@ -1,0 +1,92 @@
+mx-clocky (16.11mx17) mx; urgency=medium
+
+  * Rebuild for MX-17
+  
+ -- Timothy E. Harris <maintainer@mxrepo.com>  Sun, 02 Jul 2017 09:34:31 -0400
+
+mx-clocky (16.11) mx; urgency=medium
+
+  * Add zerotwos TT font, and symlink to skins that use it.
+  * Drop dependency on fonts-larabie-deco.
+
+ -- Steven Pusser <stevep@mxlinux.org>  Fri, 25 Nov 2016 14:18:21 -0800
+
+mx-clocky (16.5.3) mx; urgency=medium
+
+  * Updated theme manager from dolphin_oracle with support for adding and
+    removing themes.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Fri, 27 May 2016 13:18:14 -0700
+
+mx-clocky (16.5.2) mx; urgency=medium
+
+  * clocky-theme-manager: Autostart setting now stays set; support for themes in
+    ~/.local/share/clocky/skins.
+  * Add minimal manpages for MX-Clocky and clocky-theme-manager.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Wed, 25 May 2016 11:49:43 -0700
+
+mx-clocky (16.5.1) mx; urgency=medium
+
+  * Remove all unused svg files from skins.
+  * Remove Anticko skin.
+  * Add Steampunk, Dropp, DarkDeco and Asrod skins.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Tue, 24 May 2016 12:53:22 -0700
+
+mx-clocky (16.5.0) mx; urgency=medium
+
+  * Add clocky-theme-manager script, the main clocky script modified to use it.
+  * Add yad as a dependency for clocky-theme-manager.
+  * Add clocky.jpg previews for each theme.
+  * Redsun skin: rename INSTALL to INSTALL.sh
+  * Change launcher name in usr/bin to MX-Clocky and make part of the main
+    source, so that it can be in the same folder as the python clocky file. Add
+    a "clocky" symlink in /usr/bin to it for everything that depends on the old
+    name.
+  * Put the debian folder into the main source, adjust debian/install for this.
+  * Make sure the installed svg, png or wav files are no longer executable.
+  * debian/control: fix the section field. (utils instead of utilities)
+  * Add override for clean in rules to get rid of leftover pyc file.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Sun, 22 May 2016 08:49:31 -0700
+
+mx-clocky (16.3.4) mx; urgency=medium
+
+  * Set default state of applet window as sticky.
+  * Replace broken Racing skin with Alien.
+  * Redo the clock face for MX-Linux skin with a better MX svg, install the 
+    mx-icon.svg graphic to docs for any future user that want to customize.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Tue, 22 Mar 2016 08:49:30 -0700
+
+mx-clocky (16.3.3) mx; urgency=medium
+
+  * If config file does not exist, create one using the configuration
+  * in /usr/share/skins/MX-Linux
+
+ -- Timothy E. Harris <maintainer@mepiscommunity.org>  Mon, 21 Mar 2016 15:59:45 -0400
+
+mx-clocky (16.3.2) mx; urgency=medium
+
+  * Fix cpu and memory displays in skin.py to show "%" instead of "x".
+    Thanks, Adrian!
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Wed, 16 Mar 2016 12:31:26 -0700
+
+mx-clocky (16.3.1) mx; urgency=medium
+
+  * Fix "Reload" causing crash.
+  * Fix multiple instances starting when beginning a saved session.
+  * Filled in debian/copyright
+  * Added a postinst script to clean out any clocky.desktops in /etc/xdg/autostart.
+  * Add a symlink for mx-clocky to clocky in /usr/bin.
+  * Add Anticko skin.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Mon, 14 Mar 2016 09:11:17 -0700
+
+mx-clocky (16.3.0) mx; urgency=low
+
+  * Initial release.
+  
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Thu, 10 Mar 2016 13:05:19 -0800

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="100"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.48.4 r9939"
+   version="1.0"
+   sodipodi:docname="clock-minute-hand-shadow.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="25.107845"
+     inkscape:cx="5.0833065"
+     inkscape:cy="100.96296"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="961"
+     inkscape:window-x="0"
+     inkscape:window-y="40"
+     showgrid="false"
+     inkscape:snap-global="false"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       orientation="horizontal"
+       position="50"
+       id="guide1307" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="50"
+       id="guide1309" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="100"
+       id="guide1311" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="0"
+       id="guide1313" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="100"
+       id="guide1315" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="0"
+       id="guide1317" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="90.060241"
+       id="guide1319" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="10.040161"
+       id="guide1321" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="90.060241"
+       id="guide1323" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="10.040161"
+       id="guide1325" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="-10.040161"
+       id="guide4953" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="40.060241"
+       id="guide4955" />
+    <sodipodi:guide
+       orientation="vertical"
+       position="30.02008"
+       id="guide4957" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3020"
+       style="stroke:#484242;stroke-opacity:0.43137255">
+      <g
+         id="g3043"
+         style="stroke:#484242;stroke-opacity:0.43137255">
+        <path
+           id="path3100"
+           d="m 2.0012911,0.12911555 c 0,1.35486255 -1.09833304,2.45319555 -2.45319555,2.45319555 -1.35486245,0 -2.45319555,-1.098333 -2.45319555,-2.45319555 0,-1.35486255 1.0983331,-2.45319555 2.45319555,-2.45319555 1.35486251,0 2.45319555,1.098333 2.45319555,2.45319555 z"
+           style="fill:none;stroke:#484242;stroke-width:5;stroke-miterlimit:4;stroke-opacity:0.43137255"
+           transform="matrix(0.50625,0,0,0.50625,0.26207881,-0.0739477)" />
+        <path
+           style="fill:none;stroke:#484242;stroke-width:0.90426105000000001px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.43137255"
+           d="M 2.1852068,-0.03550342 C 5.0377233,-0.01071352 4.538,-0.01071352 4.538,-0.01071352"
+           id="path3106"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="fill:none;stroke:#484242;stroke-width:0.96472340999999995px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.43137255"
+           d="M 6.1325896,1.86 C 5.4709003,1.9377576 5.0530574,1.737479 4.7387865,1.162 L 4.639,0.00615445 4.7387865,-1.149 C 4.755522,-1.5215219 5.1435757,-2.2456076 6.336561,-1.991 43.045383,-0.26943213 42.437238,-0.07956782 6.1325896,1.86 z"
+           id="path3110"
+           inkscape:connector-curvature="0"
+           sodipodi:nodetypes="cccccc" />
+      </g>
+    </g>
+  </g>
+</svg>

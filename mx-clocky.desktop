@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=MX-Clocky Desktop Clock
+GenericName=MX-Clocky Desktop Clock
+Comment=Attractive Skinnable Desktop Clock
+Exec=MX-Clocky
+Terminal=false
+Icon=mx-clocky
+Type=Application
+Categories=GTK;Application;Utility;
+X-GNOME-Autostart-Delay=7
+X-KDE-Autostart-Delay=7

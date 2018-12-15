@@ -1,0 +1,58 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: clocky
+Source: http://gtk-apps.org/content/show.php/Clocky?content=167525
+
+Files:     clocky
+           bin
+           mx-clocky.desktop
+Copyright: 2013 by mickyz
+License:   GPL-3.0+
+
+Files: skins/*
+Copyright: 2010-2016 various authors
+License: GPL-2.0+
+
+Files: debian/*
+       manpages/*
+       MX-Clocky
+       mx-clocky.xpm
+Copyright: 2016 Steven Pusser (Stevo) <maintainer@mepiscommunity.org>
+License: GPL-2.0+
+
+Files: clocky-theme-manager
+Copyright: 2016 MX Linux Dev Team
+License: GPL-2.0+
+
+License: GPL-2.0+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+ .
+ License: GPL-3.0+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".

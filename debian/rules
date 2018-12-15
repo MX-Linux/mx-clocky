@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ 
+override_dh_auto_clean:
+	rm -rf skins/*.pyc
+	dh_auto_clean
+
+override_dh_installman:
+
+override_dh_builddeb:
+	dh_builddeb -- -Z xz
