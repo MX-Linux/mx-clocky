@@ -9,8 +9,9 @@
 ##clocky theme changer
 
 # translations stuff
+# (clocky and clocky-theme-manager share the same message catalogue)
 TEXTDOMAINDIR=/usr/share/locale 
-TEXTDOMAIN=mx-clocky-theme-changer
+TEXTDOMAIN=mx-clocky
 
 #define some variables, including translation text variables
 
@@ -190,7 +191,7 @@ if [ "$INDEX" = "0" ]; then
 
 	#switch to theme directory because the installer scripts use relative paths
 	cd $NEWPATH
-	echo "New Working Direcotory: "$PWD
+	echo "New Working Directory: "$PWD
 
 	#figure out installer script title (either INSTALL.sh or simply INSTALL depending on theme)
 	command=$(ls |grep INSTALL)
@@ -236,11 +237,11 @@ info=$(yad --selectable-labels --window-icon=preferences-desktop-sound --align=c
 	--field=" ":LBL " "\
 	--field="$Version $version":LBL ""\
 	--field=" ":LBL " "\
-	--field="<b>A nice desktop clock</b>":LBL ""\
+	--field="<b>""$description""</b>":LBL ""\
 	--field=" ":LBL " "\
-	--field="http://www.mepiscommunity.org/mx":BTN "xdg-open www.mepiscommunity.org/mx"\
+	--field="https://mxlinux.org":BTN "xdg-open https://mxlinux.org"\
 	--field=" ":LBL " "\
-	--field="copyright (c) antiX":LBL "")
+	--field="copyright (c) MX Linux":LBL "")
 
 case $? in
 
@@ -297,11 +298,11 @@ if [ -d "/home/$USER/.local/share/clocky/skins/$ADDTHEME/" ]; then
 	state=$?
 fi
 
-#depending on exit status do someting (only 0 copies, 1 exits dialog)
+#depending on exit status do something (only 0 copies, 1 exits dialog)
 case $state in
 
 	0)mkdir -p ~/.local/share/clocky/skins/$ADDTHEME/
-		echo "copyying $THEMEFOLDER"
+		echo "copying $THEMEFOLDER"
 		cp $THEMEFOLDER/* ~/.local/share/clocky/skins/$ADDTHEME/
 	;;
 	1) actionstatus=0

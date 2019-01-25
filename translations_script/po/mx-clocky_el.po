@@ -1,0 +1,116 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Geoff Gigg <geoffgigg@hotmail.com>, 2018
+# asinoro asinoro <asinoro1@yahoo.com>, 2018
+# anticapitalista <anticapitalista@riseup.net>, 2019
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-29 12:42-0500\n"
+"PO-Revision-Date: 2018-12-29 17:47+0000\n"
+"Last-Translator: anticapitalista <anticapitalista@riseup.net>, 2019\n"
+"Language-Team: Greek (https://www.transifex.com/anticapitalista/teams/10162/el/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: clocky:166
+msgid "Stick desktop"
+msgstr "κολλήστε στην επιφάνεια εργασίας"
+
+#: clocky:171
+msgid "Edit config"
+msgstr "Ρυθμίση"
+
+#: clocky:177
+msgid "Reload"
+msgstr "Ανανέωση"
+
+#: clocky:183
+msgid "Manage themes"
+msgstr "Διαχείριση θεμάτων"
+
+#: clocky-theme-manager:19
+msgid "MX Clocky Theme Chooser"
+msgstr "MX Clocky Theme Chooser"
+
+#: clocky-theme-manager:20
+msgid "Help"
+msgstr "Βοήθεια "
+
+#: clocky-theme-manager:21
+msgid "About"
+msgstr "Περί"
+
+#: clocky-theme-manager:22
+msgid "Close"
+msgstr "Κλείσε"
+
+#: clocky-theme-manager:23
+msgid "Apply"
+msgstr "Εφαρμογή"
+
+#: clocky-theme-manager:24
+msgid "Clocky Theme"
+msgstr " θέμα του Clocky"
+
+#: clocky-theme-manager:25
+msgid "Preview"
+msgstr "Προεπισκόπηση"
+
+#: clocky-theme-manager:26
+msgid "Current"
+msgstr "Τρέχουσα"
+
+#: clocky-theme-manager:27
+msgid "Autostart"
+msgstr "Αυτόματη εκκίνηση"
+
+#: clocky-theme-manager:28
+msgid "Add Theme"
+msgstr "Προσθήκη Θέματος"
+
+#: clocky-theme-manager:29
+msgid "Remove Theme"
+msgstr "Αφαίρεση θεμάτων"
+
+#: clocky-theme-manager:30
+msgid "Add"
+msgstr "Προσθήκη "
+
+#: clocky-theme-manager:31
+msgid "Choose Theme Folder"
+msgstr "Επιλέξτε το φάκελο Θέματος"
+
+#: clocky-theme-manager:32
+msgid "Remove"
+msgstr "Απομάκρυνση"
+
+#: clocky-theme-manager:33
+msgid "Yes"
+msgstr "Ναι"
+
+#: clocky-theme-manager:34
+msgid "No"
+msgstr "Όχι"
+
+#: clocky-theme-manager:230
+msgid "Version"
+msgstr "Έκδοση"
+
+#: clocky-theme-manager:232
+msgid "A nice desktop clock"
+msgstr "Ένα ωραίο ρολόι στην επιφάνεια εργασίας"
+
+#: clocky-theme-manager:233
+msgid "About MX-Clocky"
+msgstr "Περί MX Clocky"

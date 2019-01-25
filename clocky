@@ -8,6 +8,15 @@
 #_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 #!v0.5~mickyz(c)2013
 
+# translations stuff
+# (clocky and clocky-theme-manager share the same message catalogue)
+
+import gettext
+gettext.bindtextdomain('mx-clocky', '/usr/share/locale')
+gettext.textdomain('mx-clocky')
+_ = gettext.gettext
+gettext.install('clocky')
+     
 import os
 import shutil
 import subprocess
@@ -154,24 +163,24 @@ class Window(gtk.Window):
         if self._menu == None:
             self._menu = gtk.Menu()
 
-            item = gtk.CheckMenuItem('Stick desktop')
+            item = gtk.CheckMenuItem(_('Stick desktop'))
             item.connect ('activate', lambda w: self.set_stick(w.active))
             self._menu.__stick = item
             self._menu.append(item)
 
-            edit = gtk.ImageMenuItem('Edit config')
+            edit = gtk.ImageMenuItem(_('Edit config'))
             edit.set_image(gtk.image_new_from_stock(
                 gtk.STOCK_EDIT, gtk.ICON_SIZE_MENU))
             edit.connect ('activate', lambda w: config.edit())
             self._menu.append(edit)
 
-            item = gtk.ImageMenuItem('Reload')
+            item = gtk.ImageMenuItem(_('Reload'))
             item.set_image(gtk.image_new_from_stock(
                 gtk.STOCK_REFRESH, gtk.ICON_SIZE_MENU))
             item.connect ('activate', lambda w: self.quit(True))
             self._menu.append(item)
 
-            item = gtk.ImageMenuItem('Manage themes')
+            item = gtk.ImageMenuItem(_('Manage themes'))
             item.set_image(gtk.image_new_from_stock(
                 gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_MENU))
 	    item.connect ('activate', lambda w: subprocess.call("clocky-theme-manager", shell=False))

@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Geoff Gigg <geoffgigg@hotmail.com>, 2018
+# Henry Oquist <henryoquist@comhem.se>, 2018
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-29 12:42-0500\n"
+"PO-Revision-Date: 2018-12-29 17:47+0000\n"
+"Last-Translator: Henry Oquist <henryoquist@comhem.se>, 2018\n"
+"Language-Team: Swedish (https://www.transifex.com/anticapitalista/teams/10162/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: clocky:166
+msgid "Stick desktop"
+msgstr "Klistra skrivbord"
+
+#: clocky:171
+msgid "Edit config"
+msgstr "Redigera konfiguration"
+
+#: clocky:177
+msgid "Reload"
+msgstr "Läs om"
+
+#: clocky:183
+msgid "Manage themes"
+msgstr "Hantera teman"
+
+#: clocky-theme-manager:19
+msgid "MX Clocky Theme Chooser"
+msgstr "MX Clocky temaväljare"
+
+#: clocky-theme-manager:20
+msgid "Help"
+msgstr "Hjälp"
+
+#: clocky-theme-manager:21
+msgid "About"
+msgstr "Om"
+
+#: clocky-theme-manager:22
+msgid "Close"
+msgstr "Stäng"
+
+#: clocky-theme-manager:23
+msgid "Apply"
+msgstr "Använd"
+
+#: clocky-theme-manager:24
+msgid "Clocky Theme"
+msgstr "Clocky-tema"
+
+#: clocky-theme-manager:25
+msgid "Preview"
+msgstr "Förhandsvisning"
+
+#: clocky-theme-manager:26
+msgid "Current"
+msgstr "Nuvarande"
+
+#: clocky-theme-manager:27
+msgid "Autostart"
+msgstr "Autostart"
+
+#: clocky-theme-manager:28
+msgid "Add Theme"
+msgstr "Lägg till tema"
+
+#: clocky-theme-manager:29
+msgid "Remove Theme"
+msgstr "Ta bort tema"
+
+#: clocky-theme-manager:30
+msgid "Add"
+msgstr "Lägg till"
+
+#: clocky-theme-manager:31
+msgid "Choose Theme Folder"
+msgstr "Välj Temakatalog"
+
+#: clocky-theme-manager:32
+msgid "Remove"
+msgstr "Ta bort"
+
+#: clocky-theme-manager:33
+msgid "Yes"
+msgstr "Ja"
+
+#: clocky-theme-manager:34
+msgid "No"
+msgstr "Nej"
+
+#: clocky-theme-manager:230
+msgid "Version"
+msgstr "Version"
+
+#: clocky-theme-manager:232
+msgid "A nice desktop clock"
+msgstr "En trevlig skrivbordsklocka"
+
+#: clocky-theme-manager:233
+msgid "About MX-Clocky"
+msgstr "Om MX-Clocky"
