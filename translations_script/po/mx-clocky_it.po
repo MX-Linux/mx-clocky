@@ -25,7 +25,7 @@ msgstr ""
 
 #: clocky:166
 msgid "Stick desktop"
-msgstr ""
+msgstr "Applicare al desktop"
 
 #: clocky:171
 msgid "Edit config"
