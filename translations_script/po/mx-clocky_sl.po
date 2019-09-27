@@ -7,6 +7,7 @@
 # anticapitalista <anticapitalista@riseup.net>, 2018
 # James Bowlin <BitJam@gmail.com>, 2018
 # Mario <al.manja@gmx.com>, 2019
+# Arnold Marko <arnold.marko@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -15,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-29 12:42-0500\n"
 "PO-Revision-Date: 2018-12-29 17:47+0000\n"
-"Last-Translator: Mario <al.manja@gmx.com>, 2019\n"
+"Last-Translator: Arnold Marko <arnold.marko@gmail.com>, 2019\n"
 "Language-Team: Slovenian (https://www.transifex.com/anticapitalista/teams/10162/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,11 +26,11 @@ msgstr ""
 
 #: clocky:166
 msgid "Stick desktop"
-msgstr ""
+msgstr "Namizje na ključu"
 
 #: clocky:171
 msgid "Edit config"
-msgstr ""
+msgstr "Uredi konfiguracijo"
 
 #: clocky:177
 msgid "Reload"
@@ -37,11 +38,11 @@ msgstr "Ponovno naloži"
 
 #: clocky:183
 msgid "Manage themes"
-msgstr ""
+msgstr "Urejanje tem"
 
 #: clocky-theme-manager:19
 msgid "MX Clocky Theme Chooser"
-msgstr ""
+msgstr "MX Clocky izbirnik teme"
 
 #: clocky-theme-manager:20
 msgid "Help"
@@ -57,43 +58,43 @@ msgstr "Zapri"
 
 #: clocky-theme-manager:23
 msgid "Apply"
-msgstr ""
+msgstr "Potrdi"
 
 #: clocky-theme-manager:24
 msgid "Clocky Theme"
-msgstr ""
+msgstr "Clocky tema"
 
 #: clocky-theme-manager:25
 msgid "Preview"
-msgstr ""
+msgstr "Predogled"
 
 #: clocky-theme-manager:26
 msgid "Current"
-msgstr ""
+msgstr "Trenutno"
 
 #: clocky-theme-manager:27
 msgid "Autostart"
-msgstr ""
+msgstr "Samodejni zagon"
 
 #: clocky-theme-manager:28
 msgid "Add Theme"
-msgstr ""
+msgstr "Dodajanje teme"
 
 #: clocky-theme-manager:29
 msgid "Remove Theme"
-msgstr ""
+msgstr "Odstranjevanje teme"
 
 #: clocky-theme-manager:30
 msgid "Add"
-msgstr ""
+msgstr "Dodaj"
 
 #: clocky-theme-manager:31
 msgid "Choose Theme Folder"
-msgstr ""
+msgstr "Izberi imenik teme"
 
 #: clocky-theme-manager:32
 msgid "Remove"
-msgstr ""
+msgstr "Briši"
 
 #: clocky-theme-manager:33
 msgid "Yes"
@@ -105,12 +106,12 @@ msgstr "Ne"
 
 #: clocky-theme-manager:230
 msgid "Version"
-msgstr ""
+msgstr "Različica"
 
 #: clocky-theme-manager:232
 msgid "A nice desktop clock"
-msgstr ""
+msgstr "Lepa namizna ura"
 
 #: clocky-theme-manager:233
 msgid "About MX-Clocky"
-msgstr ""
+msgstr "O MX-Clocky"

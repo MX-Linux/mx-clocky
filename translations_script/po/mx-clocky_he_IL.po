@@ -5,6 +5,7 @@
 # 
 # Translators:
 # anticapitalista <anticapitalista@riseup.net>, 2018
+# hell spurs <alesha2000@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-29 12:42-0500\n"
 "PO-Revision-Date: 2018-12-29 17:47+0000\n"
-"Last-Translator: anticapitalista <anticapitalista@riseup.net>, 2018\n"
+"Last-Translator: hell spurs <alesha2000@gmail.com>, 2019\n"
 "Language-Team: Hebrew (Israel) (https://www.transifex.com/anticapitalista/teams/10162/he_IL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +44,7 @@ msgstr ""
 
 #: clocky-theme-manager:20
 msgid "Help"
-msgstr ""
+msgstr "עזרה"
 
 #: clocky-theme-manager:21
 msgid "About"
@@ -55,7 +56,7 @@ msgstr "סגור"
 
 #: clocky-theme-manager:23
 msgid "Apply"
-msgstr ""
+msgstr "אשר"
 
 #: clocky-theme-manager:24
 msgid "Clocky Theme"
