@@ -58,7 +58,7 @@ if [ -e ~/.config/autostart/mx-clocky.desktop ]; then
 	echo "Version=0.0.0">>~/.config/autostart/mx-clocky.desktop
 	echo "Type=Application">>~/.config/autostart/mx-clocky.desktop
 	echo "Name=MX-Clocky">>~/.config/autostart/mx-clocky.desktop
-	echo "Exec=mx-clocky">>~/.config/autostart/mx-clocky.desktop
+	echo "Exec=MX-Clocky">>~/.config/autostart/mx-clocky.desktop
 	echo "StartupNotify=false">>~/.config/autostart/mx-clocky.desktop
 	echo "Terminal=false">>~/.config/autostart/mx-clocky.desktop
 	echo "Hidden=true">>~/.config/autostart/mx-clocky.desktop
@@ -403,6 +403,14 @@ export -f preview
 
 # set initial status
 status=0
+
+# check for presence of autostart file and fix if present
+
+if [ "$(grep -q "Exec=mx-clocky" $HOME/.config/autostart/mx-clocky.desktop && echo $?)" == "0" ]; then
+    echo "test tripped"
+    sed -i -r s/Exec=.*/Exec=MX-Clocky/ ~/.config/autostart/mx-clocky.desktop
+fi
+    
 
 while [ $status = "0" ]; do
 
